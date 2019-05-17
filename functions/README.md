@@ -27,6 +27,19 @@ gcloud functions deploy <FUNCTION NAME> --env-vars-file .env.yaml --runtime node
 curl https://<REGION>-<PROJECT_NAME>.cloudfunctions.net/<FUNCTION_NAME>
 ```
 
+# Where is a log file?
+
+You can know where is the log.
+```
+functions-emulator status
+> Log file <where-is-the-log>
+```
+
+And then, you can show the log with tail command.
+```
+tail -f <log-file>
+```
+
 # Environment variables
 
 The environment variables are on the `.env.yaml` file.
