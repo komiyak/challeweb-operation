@@ -48,3 +48,4 @@ The `.env.yaml` does not share anyone.
 | Name | Summary |
 | --- | --- |
 | SAMPLE | a sample variable |
+| API_ENDPOINT | The endpoint of the challeweb-api. |
