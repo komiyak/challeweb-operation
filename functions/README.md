@@ -12,10 +12,16 @@ functions-emulator deploy helloWorld --trigger-http
 functions-emulator call helloWorld
 ```
 
+Or, if you run the function with environment variables.
+
+```
+./restart_emulator.rb
+```
+
 ## To CloudFunctions
 
 ```
-gcloud functions deploy <FUNCTION NAME> --runtime nodejs8 --trigger-http
+gcloud functions deploy <FUNCTION NAME> --env-vars-file .env.yaml --runtime nodejs8 --trigger-http
 
 # Run
 curl https://<REGION>-<PROJECT_NAME>.cloudfunctions.net/<FUNCTION_NAME>
