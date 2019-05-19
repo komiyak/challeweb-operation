@@ -5,7 +5,7 @@ require 'yaml'
 exports_str = ''
 
 # To load environment variables and to build a string to export.
-yaml = YAML.load_file('.env.yaml')
+yaml = YAML.load_file(__dir__ + '/.env.yaml')
 yaml.each do |key, val|
   exports_str += "#{key}=#{val} "
 end
