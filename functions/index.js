@@ -12,11 +12,8 @@ const axiosClient = axios.create({
 });
 
 exports.listingApi = (req, res) => {
-    console.log("Called listing api.");
-
-    axiosClient.get('/challeweb/json/articles.json')
-        .then(function (response) {
-            console.log('get articles');
+    axiosClient.get('/users')
+        .then((response) => {
             console.log(response.data);
         });
 
