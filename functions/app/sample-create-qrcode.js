@@ -23,8 +23,6 @@ const createPdfBinary = (pdfDoc, callback) => {
         chunks.push(chunk);
     });
     doc.on('end', function () {
-        // let result = Buffer.concat(chunks);
-        // callback('data:application/pdf;base64,' + result.toString('base64'));
         callback(Buffer.concat(chunks));
     });
     doc.end();
