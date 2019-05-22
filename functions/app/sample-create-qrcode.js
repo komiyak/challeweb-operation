@@ -1,39 +1,37 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const PdfPrinter = require('pdfmake');
+const QRCode = require('qrcode');
 
-const createPdfBinary = (pdfDoc, callback) =>
-{
-    const fontDescriptors = {
-        Roboto: {
-            normal: path.join(__dirname, '..', '/fonts/Roboto-Regular.ttf'),
-            bold: path.join(__dirname, '..', '/fonts/Roboto-Medium.ttf'),
-            italics: path.join(__dirname, '..', '/fonts/Roboto-Italic.ttf'),
-            bolditalics: path.join(__dirname, '..', '/fonts/Roboto-MediumItalic.ttf')
-        }
-    };
-    const printer = new PdfPrinter(fontDescriptors);
-    var doc = printer.createPdfKitDocument(pdfDoc);
+const fontDescriptors = {
+    Roboto: {
+        normal: path.join(__dirname, '..', '/fonts/Roboto-Regular.ttf'),
+        bold: path.join(__dirname, '..', '/fonts/Roboto-Medium.ttf'),
+        italics: path.join(__dirname, '..', '/fonts/Roboto-Italic.ttf'),
+        bolditalics: path.join(__dirname, '..', '/fonts/Roboto-MediumItalic.ttf')
+    }
+};
 
-    var chunks = [];
-    var result;
+const createPdfBinary = (pdfDoc, callback) => {
+    let printer = new PdfPrinter(fontDescriptors);
+    let doc = printer.createPdfKitDocument(pdfDoc);
+    let chunks = [];
 
     doc.on('data', function (chunk) {
         chunks.push(chunk);
     });
     doc.on('end', function () {
-        //result = Buffer.concat(chunks);
-        //callback('data:application/pdf;base64,' + result.toString('base64'));
+        // let result = Buffer.concat(chunks);
+        // callback('data:application/pdf;base64,' + result.toString('base64'));
         callback(Buffer.concat(chunks));
     });
     doc.end();
 
-}
+};
 
 const run = (req, res) => {
-    const QRCode = require('qrcode');
-
     QRCode.toDataURL('https://example.com', function (err, url) {
         console.log(url)
     });
@@ -46,7 +44,6 @@ const run = (req, res) => {
     };
 
     createPdfBinary(docDefinition, (binary) => {
-        var fs = require('fs');
         var wstream = fs.createWriteStream('basics.pdf')
         wstream.write(binary);
         wstream.end();
