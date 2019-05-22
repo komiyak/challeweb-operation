@@ -1,13 +1,10 @@
 'use strict';
 
 const path = require('path');
-const QRCode = require('qrcode');
+const PdfPrinter = require('pdfmake');
 
-const run = (req, res) => {
-    QRCode.toDataURL('https://example.com', function (err, url) {
-        console.log(url)
-    });
-
+const createPdfBinary = (pdfDoc, callback) =>
+{
     const fontDescriptors = {
         Roboto: {
             normal: path.join(__dirname, '..', '/fonts/Roboto-Regular.ttf'),
@@ -16,12 +13,30 @@ const run = (req, res) => {
             bolditalics: path.join(__dirname, '..', '/fonts/Roboto-MediumItalic.ttf')
         }
     };
+    const printer = new PdfPrinter(fontDescriptors);
+    var doc = printer.createPdfKitDocument(pdfDoc);
 
-    console.log(path.join(__dirname, '..', '/fonts/Roboto-Regular.ttf'));
+    var chunks = [];
+    var result;
 
-    var PdfPrinter = require('pdfmake');
-    var printer = new PdfPrinter(fontDescriptors);
-    var fs = require('fs');
+    doc.on('data', function (chunk) {
+        chunks.push(chunk);
+    });
+    doc.on('end', function () {
+        //result = Buffer.concat(chunks);
+        //callback('data:application/pdf;base64,' + result.toString('base64'));
+        callback(Buffer.concat(chunks));
+    });
+    doc.end();
+
+}
+
+const run = (req, res) => {
+    const QRCode = require('qrcode');
+
+    QRCode.toDataURL('https://example.com', function (err, url) {
+        console.log(url)
+    });
 
     var docDefinition = {
         content: [
@@ -30,11 +45,15 @@ const run = (req, res) => {
         ]
     };
 
-    var pdfDoc = printer.createPdfKitDocument(docDefinition);
-    pdfDoc.pipe(fs.createWriteStream('basics.pdf'));
-    pdfDoc.end();
-
-    res.send('The QR code built!');
+    createPdfBinary(docDefinition, (binary) => {
+        var fs = require('fs');
+        var wstream = fs.createWriteStream('basics.pdf')
+        wstream.write(binary);
+        wstream.end();
+        res.send('SUCCESS');
+    }, (error) => {
+        res.send('ERROR:' + error);
+    });
 };
 
 module.exports = {run};
