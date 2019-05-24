@@ -45,7 +45,7 @@ const run = async (req, res) => {
         console.log(url)
     });
 
-    var docDefinition = {
+    const docDefinition = {
         content: [
             'First paragraph',
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
@@ -54,9 +54,9 @@ const run = async (req, res) => {
     await listFiles(process.env.STORAGE_BUCKET_TO_UPLOAD);
 
     createPdfBinary(docDefinition, (binary) => {
-        var wstream = fs.createWriteStream('basics.pdf')
-        wstream.write(binary);
-        wstream.end();
+        let writeStream = fs.createWriteStream('basics.pdf');
+        writeStream.write(binary);
+        writeStream.end();
         res.send('SUCCESS');
     }, (error) => {
         res.send('ERROR:' + error);
