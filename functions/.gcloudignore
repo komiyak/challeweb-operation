@@ -21,4 +21,5 @@ node_modules
 # Development items.
 README.md
 restart_emulator.rb
-# Created PDFs from functions.
+
+Challecara-Operation-*.json

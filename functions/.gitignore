@@ -3,6 +3,7 @@ node_modules/
 
 # Environment variables and secret files.
 .env.yaml
+.env.local.yaml
 Challecara-Operation-*.json
 
 # Created pdfs from functions.
