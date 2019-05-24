@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const PdfPrinter = require('pdfmake');
 const QRCode = require('qrcode');
+const {Storage} = require('@google-cloud/storage');
 
 const fontDescriptors = {
     Roboto: {
@@ -26,10 +27,20 @@ const createPdfBinary = (pdfDoc, callback) => {
         callback(Buffer.concat(chunks));
     });
     doc.end();
-
 };
 
-const run = (req, res) => {
+const listFiles = async bucketName => {
+    const storage = new Storage();
+    const [files] = await storage.bucket(bucketName).getFiles();
+
+    console.log(files);
+    console.log('Files:');
+    files.forEach(file => {
+        console.log(file.name);
+    });
+};
+
+const run = async (req, res) => {
     QRCode.toDataURL('https://example.com', function (err, url) {
         console.log(url)
     });
@@ -40,6 +51,8 @@ const run = (req, res) => {
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
         ]
     };
+
+    await listFiles('challeweb-operation-yu7scu6l');
 
     createPdfBinary(docDefinition, (binary) => {
         var wstream = fs.createWriteStream('basics.pdf')
