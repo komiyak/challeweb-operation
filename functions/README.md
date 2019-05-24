@@ -47,6 +47,6 @@ The `.env.yaml` does not share anyone.
 
 | Name | Summary |
 | --- | --- |
-| SAMPLE | a sample variable |
 | API_ENDPOINT | The endpoint of the challeweb-api. |
+| GOOGLE_APPLICATION_CREDENTIALS | The credentials for GCP. See https://cloud.google.com/docs/authentication/getting-started |
 | STORAGE_BUCKET_TO_UPLOAD | The bucket name of the Google Cloud Storage to upload. |

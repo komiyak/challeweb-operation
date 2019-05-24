@@ -1,8 +1,9 @@
 node_modules/
 .idea/
 
-# Environment variables
+# Environment variables and secret files.
 .env.yaml
+Challecara-Operation-*.json
 
 # Created pdfs from functions.
 /*.pdf

@@ -51,12 +51,29 @@ const run = async (req, res) => {
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
         ]
     };
-    await listFiles(process.env.STORAGE_BUCKET_TO_UPLOAD);
+    //await listFiles(process.env.STORAGE_BUCKET_TO_UPLOAD);
+
+
+    const storage = new Storage();
+    const file = storage.bucket(process.env.STORAGE_BUCKET_TO_UPLOAD).file(Date.now() + '.pdf');
+    const stream = file.createWriteStream({
+        metadata: {
+            contentType: 'application/pdf'
+        },
+        resumable: false
+    });
+    // stream.on('error', (err) => {
+    //     next(err);
+    // });
+    // stream.on('finish', () => {
+    //     next();
+    // });
 
     createPdfBinary(docDefinition, (binary) => {
-        let writeStream = fs.createWriteStream('basics.pdf');
-        writeStream.write(binary);
-        writeStream.end();
+        // let writeStream = fs.createWriteStream('basics.pdf');
+        // writeStream.write();
+        // writeStream.end();
+        stream.end(binary);
         res.send('SUCCESS');
     }, (error) => {
         res.send('ERROR:' + error);
