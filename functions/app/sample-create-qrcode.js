@@ -51,8 +51,7 @@ const run = async (req, res) => {
             'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
         ]
     };
-
-    await listFiles('challeweb-operation-yu7scu6l');
+    await listFiles(process.env.STORAGE_BUCKET_TO_UPLOAD);
 
     createPdfBinary(docDefinition, (binary) => {
         var wstream = fs.createWriteStream('basics.pdf')
