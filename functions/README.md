@@ -49,3 +49,4 @@ The `.env.yaml` does not share anyone.
 | --- | --- |
 | SAMPLE | a sample variable |
 | API_ENDPOINT | The endpoint of the challeweb-api. |
+| STORAGE_BUCKET_TO_UPLOAD | The bucket name of the Google Cloud Storage to upload. |
