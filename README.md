@@ -1,3 +1,3 @@
-# challeweb-operating
+# challeweb-operation
 
-A web tool for the operating team of the Challecara.
+This is the web application for the operating team of the Challecara.
